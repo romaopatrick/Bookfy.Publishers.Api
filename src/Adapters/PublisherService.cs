@@ -30,12 +30,12 @@ public class PublisherService(IPublisherRepository repository) : IPublisherUseCa
 
     public async Task<Result<Paginated<Publisher>>> Get(SearchPublishers input, CancellationToken ct)
     {
-        var result = await _repository.Get(x 
+        var result = await _repository.Get(x
             => x.CompanyName.StartsWith(input.SearchTerm ?? "", StringComparison.CurrentCultureIgnoreCase)
-            || x.TradeName.StartsWith(input.SearchTerm?? "", StringComparison.CurrentCultureIgnoreCase)
+            || x.TradeName.StartsWith(input.SearchTerm ?? "", StringComparison.CurrentCultureIgnoreCase)
             || x.Document.Contains(
                 DocumentExtensions.ClearDocument(input.SearchTerm ?? ""), StringComparison.CurrentCultureIgnoreCase),
-            input.Skip ?? 0 , input.Take ?? 10, ct);
+            input.Skip ?? 0, input.Take ?? 10, ct);
 
         return Result.WithSuccess(result, 200);
     }
@@ -47,14 +47,14 @@ public class PublisherService(IPublisherRepository repository) : IPublisherUseCa
             return Result.WithFailure<Publisher>("invalid_document", 400);
 
         var publisher = await _repository.First(x => x.Id == input.Id, ct);
-        if(publisher is null) 
+        if (publisher is null)
             return Result.WithFailure<Publisher>("publisher_not_found_with_id", 404);
 
         if (await PublisherConflicts(
-                input.Id, 
-                input.CompanyName!, 
-                input.TradeName!, 
-                input.Document!, 
+                input.Id,
+                input.CompanyName!,
+                input.TradeName!,
+                input.Document!,
                 ct))
             return Result.WithFailure<Publisher>("publisher_conflict", 409);
 
