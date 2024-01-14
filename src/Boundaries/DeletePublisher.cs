@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bookfy.Publishers.Api.src.Boundaries;
+namespace Bookfy.Publishers.Api.Boundaries;
 
 public class DeletePublisher
 {

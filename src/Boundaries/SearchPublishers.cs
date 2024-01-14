@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Bookfy.Publishers.Api.src.Boundaries;
+namespace Bookfy.Publishers.Api.Boundaries;
 
 
 public class SearchPublishers
