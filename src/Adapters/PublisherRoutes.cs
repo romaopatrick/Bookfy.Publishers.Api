@@ -10,7 +10,7 @@ public static class PublisherRoutes
 {
     public static RouteGroupBuilder MapPublisherRoutes(this RouteGroupBuilder app)
     {
-        var group = app.MapGroup("publisher");
+        var group = app.MapGroup("publishers");
 
         group.MapGet("{id:guid}",
             async (CancellationToken ct,
