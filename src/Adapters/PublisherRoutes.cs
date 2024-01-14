@@ -1,7 +1,6 @@
 using System.Net;
 using Bookfy.Publishers.Api.Boundaries;
 using Bookfy.Publishers.Api.Ports;
-using Bookfy.Publishers.Api.Boundaries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookfy.Publishers.Api.Adapters;

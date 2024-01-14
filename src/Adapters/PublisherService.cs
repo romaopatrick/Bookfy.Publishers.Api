@@ -1,7 +1,6 @@
 using Bookfy.Publishers.Api.Boundaries;
 using Bookfy.Publishers.Api.Domain;
 using Bookfy.Publishers.Api.Ports;
-using Bookfy.Publishers.Api.Boundaries;
 
 namespace Bookfy.Publishers.Api.Adapters;
 
