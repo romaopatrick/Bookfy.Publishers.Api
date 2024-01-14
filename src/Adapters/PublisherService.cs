@@ -28,6 +28,18 @@ public class PublisherService(IPublisherRepository repository) : IPublisherUseCa
         return Result.WithSuccess(publisher, 201);
     }
 
+    public async Task<Result> Delete(DeletePublisher input, CancellationToken ct)
+    {
+        var publisher = await _repository.First(x => x.Id == input.Id, ct);
+        if (publisher == null)
+            return Result.WithFailure<Publisher>("publisher_not_found_with_id", 404);
+
+        await _repository.Delete(publisher.Id, ct);
+
+        return Result.WithSuccess(publisher, 204);
+    }
+
+
     public async Task<Result<Paginated<Publisher>>> Get(SearchPublishers input, CancellationToken ct)
     {
         var result = await _repository.Get(x
@@ -40,6 +52,13 @@ public class PublisherService(IPublisherRepository repository) : IPublisherUseCa
         return Result.WithSuccess(result, 200);
     }
 
+    public async Task<Result<Publisher>> GetById(GetPublisherById input, CancellationToken ct)
+    {
+        var publisher = await _repository.First(x => x.Id == input.Id, ct);
+        return publisher is null
+            ? Result.WithFailure<Publisher>("publisher_not_found_with_id", 404)
+            : Result.WithSuccess(publisher, 200); 
+    }
 
     public async Task<Result<Publisher>> Update(UpdatePublisher input, CancellationToken ct)
     {

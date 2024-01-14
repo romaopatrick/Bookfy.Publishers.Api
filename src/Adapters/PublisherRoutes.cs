@@ -12,16 +12,25 @@ public static class PublisherRoutes
     {
         var group = app.MapGroup("publisher");
 
+        group.MapGet("{id:guid}",
+            async (CancellationToken ct,
+            IPublisherUseCase useCase,
+            [AsParameters] GetPublisherById input) =>
+            {
+                var result = await useCase.GetById(input, ct);
+                return JsonFromResult(result);
+            });
+
         group.MapGet("search",
             async (CancellationToken ct,
                 IPublisherUseCase useCase,
-                [AsParameters] SearchPublishers input) => 
+                [AsParameters] SearchPublishers input) =>
                 {
                     var result = await useCase.Get(input, ct);
                     return JsonFromResult(result);
                 });
 
-        group.MapPost("", 
+        group.MapPost("",
             async (CancellationToken ct,
                 IPublisherUseCase useCase,
                 [FromBody] CreatePublisher input) =>
@@ -40,10 +49,25 @@ public static class PublisherRoutes
                     return JsonFromResult(result);
                 });
 
+        group.MapDelete("{id:guid}",
+            async (CancellationToken ct,
+                IPublisherUseCase useCase,
+                [AsParameters] DeletePublisher input) =>
+                {
+                    var result = await useCase.Delete(input, ct);
+                    return JsonFromResult(result);
+                });
         return app;
     }
 
     private static IResult JsonFromResult<T>(Result<T> result) =>
+           result.Code == (int)HttpStatusCode.NoContent
+               ? Results.NoContent()
+               : Results.Json(
+                   data: result,
+                   statusCode: result.Code);
+
+    private static IResult JsonFromResult(Result result) =>
            result.Code == (int)HttpStatusCode.NoContent
                ? Results.NoContent()
                : Results.Json(
