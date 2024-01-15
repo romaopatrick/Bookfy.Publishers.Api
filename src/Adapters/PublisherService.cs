@@ -70,9 +70,9 @@ public class PublisherService(IPublisherRepository repository) : IPublisherUseCa
 
         if (await PublisherConflicts(
                 input.Id,
-                input.CompanyName!,
-                input.TradeName!,
-                input.Document!,
+                input.CompanyName ?? publisher.CompanyName,
+                input.TradeName ?? publisher.TradeName,
+                input.Document ?? publisher.Document,
                 ct))
             return Result.WithFailure<Publisher>("publisher_conflict", 409);
 
